@@ -1,0 +1,126 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2018-01-22T16:32:28+07:00
+
+====== Docker ======
+Created Monday 22 January 2018
+
+
+
+**Dockerfile syntax**
+
+**FROM**
+The FROM command tels Docker which base you would like to use for your images.
+
+**LABEL**
+The LABEL command can be used to add extra information to the images. 
+
+**RUN**
+ The RUN command is where we interact iwth our image to install software and run scripts. commands, and other tasks.
+
+*&& 
+using to move on the next command if the previous commands was successful.
+
+**COPY and ADD**
+COPY this will overwrite any existing files.
+ADD auto uncompresses
+
+**EXPOSE**
+EXPOSE command lets Docker know port allow to listening 
+
+**ENTRYPOINT and CMD**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+docker run ubuntu echo 'hello world'
+docker images
+docker run -p 8080:80 -d nginx
+docker start 16b3ae264477
+docker stop/restart 16b3ae264477
+docker rm 16b3ae264477
+docker build -t friendlyhello .                               # Create image using this directory's Dockerfile
+docker run -p 4000:80 friendlyhello                    # Run "friendlyname" mapping port 4000 to 80
+docker run -d -p 4000:80 friendlyhello                # Same thing, but in detached mode
+docker container ls                                              # List all running containers
+docker container ls -a                                          # List all containers, even those not running
+docker container stop <hash>                           # Gracefully stop the specified container
+docker container kill <hash>                              # Force shutdown of the specified container
+docker container rm <hash>                             # Remove specified container from this machine
+docker container rm $(docker container ls -a -q)         # Remove all containers
+docker image ls -a                                               # List all images on this machine
+docker image rm <image id>                             # Remove specified image from this machine
+docker image rm $(docker image ls -a -q)         # Remove all images from this machine
+docker login                                                         # Log in this CLI session using your Docker credentials
+docker tag <image> username/repository:tag  # Tag <image> for upload to registry
+docker push username/repository:tag                 # Upload tagged image to registry
+docker run username/repository:tag                   # Run image from a registry
+
+3.2 Một số câu lệnh cơ bản của Docker
+
+Nhóm câu lệnh
+Câu lệnh
+Ý nghĩa
+Image
+docker image pull <image_name>
+Pull một image từ Docker Hub
+docker image ls
+Liệt kê các images hiện có
+docker image rm <image_name>
+Xóa một image
+docker image build -t <image_name> .
+Build một image từ Dockerfile
+docker image history <image_name>
+Xem lịch sử build của một image
+Container
+docker container run <image_name>
+Tạo một container
+docker container start <container_name>
+Start một container
+docker container stop <container_name>
+Stop một container
+docker container rm <container_name>
+Xóa một container
+docker container ps
+Liệt kê các container đang chạy
+docker container diff <container_name>
+Xem các thay đổi trên container
+docker images shows all images.
+ creates image from Dockerfile.
+docker commit creates image from a container, pausing it temporarily if it is running.
+docker import creates an image from a tarball.
+docker export turns container filesystem into tarball archive stream to STDOUT.
+docker load loads an image from a tar archive as STDIN, including images and tags (as of 0.7).
+docker save saves an image to a tar archive stream to STDOUT with all parent layers, tags & versions (as of 0.7).
+docker rmi removes an image.
+docker history shows history of image.
+docker tag tags an image to a name (local or registry).
+ FROM
+Sets the Base Image for subsequent instructions.
+FROM alpine:3.4
+RUN
+Executes a command. RUN commands must be non-interactive. (No input can be provided to Docker during the build.)
+
+
+RUN apk add --no-cache nginx
+
+
+
+CMD
+Defaults for an executing container.
+CMD ["nginx", "-g", "daemon off;"]
+
+

@@ -1,0 +1,161 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2018-01-28T22:49:26+07:00
+
+====== sed ======
+Created Sunday 28 January 2018
+
+%s!^!/! thêm / vào đầu tất cả các dòng
+sed -n '$=' file.txt 				# count lines (emulates "wc -l")
+sed 's/foo/bar/'         	    		# replaces only 1st instance in a line
+sed 's/foo/bar/4'        	  		# replaces only 4th instance in a line
+sed 's/foo/bar/g'        	 		# replaces ALL instances in a line
+sed 's/\(.*\)foo\(.*foo\)/\1bar\2/' 	# replace the next-to-last case, '\1' and '\2' are groups in Regex
+sed 's/\(.*\)foo/\1bar/'        	    	# replace only the last case
+# substitute "foo" with "bar" ONLY for lines which contain "baz"
+sed '/baz/s/foo/bar/g'
+
+# substitute "foo" with "bar" EXCEPT for lines which contain "baz"
+sed '/baz/!s/foo/bar/g'
+# join pairs of lines side-by-side (like "paste")
+sed '$!N;s/\n/ [[/']]
+sed -i  's/foo/bar/g'  file.txt # Replace inplace file.txt
+sed -i.bak  's/foo/bar/g' file.txt  # Create backup file.txt.bak first then modifying file.txt
+In header của file
+# print first 10 lines of file (emulates behavior of "head")
+sed 10q
+
+# print first line of file (emulates "head -1")
+sed q
+In các dòng cuối của file
+# print the last 2 lines of a file (emulates "tail -2")
+sed '$!N;$!D'
+
+# print the last line of a file (emulates "tail -1")
+sed '$!d'                    # method 1
+sed -n '$p'                  # method 2
+In các line match với Regex
+# print only lines which match regular expression (emulates "grep")
+sed -n '/regexp/p'           # method 1,
+sed '/regexp/!d'             # method 2
+
+# print section of file from regular expression to end of file
+sed -n '/regexp/,$p'
+In các line không match với Regex
+sed -n '/regexp/!p'          # method 1, corresponds to above
+sed '/regexp/d'              # method 2, simpler syntax
+Print các lines dựa vào line number
+# print section of file based on line numbers (lines 8-12, inclusive)
+sed -n '8,12p'               # method 1
+sed '8,12!d'                 # method 2
+
+# print line number 52
+sed -n '52p'                 # method 1
+sed '52!d'                   # method 2
+sed '52q;d'                 # method 3, efficient on large files
+SELECTIVE DELETION OF CERTAIN LINES
+Xóa các dòng duplicate liền kề
+# delete duplicate, consecutive lines from a file (emulates "uniq").
+# First line in a set of duplicate lines is kept, rest are deleted.
+sed '$!N; /^\(.*\)\n\1$/!P; D'
+# delete all lines except duplicate lines (emulates "uniq -d").
+sed '$!N; s/^\(.*\)\n\1$/\1/; t; D'
+
+# delete the first 10 lines of a file
+sed '1,10d'
+
+# delete the last line of a file
+sed '$d'
+
+# delete the last 2 lines of a file
+sed 'N;$!P;$!D;$d'
+Delete lines matching pattern
+sed '/pattern/d'
+Delete ALL blank lines from a file (same as "grep '.' ")
+sed '/^$/d'                          # method 1
+sed '/./!d'                           # method 2
+sed là một stream editor
+sed là một non-interactive editor. Điều đó có nghĩa là, không giống như những text editors khác mà bạn đã sử dụng như vim hay sublime, nó chỉ đọc một tập hợp lệnh từ một script, sau đó sẽ thực thi những lệnh đó với file cung cấp.
+
+Ví dụ:
+
+$ sed -e 'script commands here' file.txt
+Đó là cách để chạy inline command với sed. Chúng ta cũng có thể thay flag -e thành -f để truyền filename vào câu lệnh sử dụng sed.
+
+$ sed -f scriptfile file.txt
+Các bạn nên đọc thêm manpage của sed để biết thêm về các arguments mà sed sử dụng.
+
+Cấu trúc câu lệnh sed
+Một câu lệnh sed bao gồm một address và một editing instruction.
+
+address chỉ ra những dòng mà sed sẽ thực thi câu lệnh
+editing instruction giúp sed biết phải làm gì với những dòng đó
+Address
+Một address có thể là một line number, một regular expression, hay một ký tự đặc biệt, ví dụ như $ là dòng cuối cùng, hay \n là ký tự chuyển dòng.
+
+Trong câu lệnh sed không bắt buộc phải có address. Khi không có address thì sed sẽ thực thi câu lệnh ở tất cả các dòng của file. Bạn có thể cung cấp một hoặc hai address. Trong trường hợp một address được chỉ thị, câu lệnh sẽ được thực thi ở những dòng thích hợp với address đó. Trong trường hợp hai address được chỉ thị, câu lệnh sẽ được thực thi cho những dòng nằm giữa hai vị trí đó. Các vị trí được phân tách nhau bằng dấu ,
+
+Ví dụ:
+
+$ sed -e '1,3 command' file.txt
+# câu lệnh sẽ thực thi ở dòng 1, 2 và 3 của file
+
+$ sed -e '/PATTERN/ command' file.txt
+# câu lệnh sẽ thực thi ở những dòng phù hợp với pattern ở trên
+
+$ sed -e '/BEGIN/,/END/ command' file.txt
+# câu lệnh sẽ thực thi từ dòng thích hợp với BEGIN đến dòng thích hợp với END
+Editing instruction
+instruction là những ký tự đơn chỉ cho sed biết phải làm gì với dòng hiện tại. instruction hay được dùng nhất là s, để thay đổi nội dung theo pattern.
+
+Ví dụ:
+
+$ echo 'foo bar foo baz' | sed -e 's/foo/FOO/'
+# FOO bar foo baz
+Câu lệnh trên cũng có thể nhận thêm argument (hoặc flag), ví dụ khi muốn thay thế tất cả các đoạn trong câu tương ứng với pattern, chứ ko chỉ thay thế mỗi đoạn đầu tiên, thì ta có thể đưa thêm flag g vào.
+
+$ echo 'foo bar foo baz' | sed -e 's/foo/FOO/g'
+# FOO bar FOO baz
+Nếu bạn muốn thực thi nhiều hơn một câu lệnh với một address, hãy đặt chúng trong dấu ngoặc {}:
+
+$ sed -e '/bar/{
+s/a/A/g
+a\
+this line was appended
+}' file.txt
+Câu lệnh trên sẽ đọc file read.txt, với mỗi dòng thoả mãn pattern /bar/ thì sẽ thay thế a bằng A, sau đó sẽ tạo thêm dòng mới với nội dung "this line was appended". Bạn cũng có thể thực hiện những xử lý khác nhau với các addresses khác nhau, trong cùng một script:
+
+$ sed -e '/bar/{
+s/a/A/g
+a\
+this line was appended
+}
+/foo/d' file.txt
+Câu lệnh trên xử lý giống câu lệnh trước đó, cộng thêm việc sẽ delete các dòng thoả mãn pattern /foo/.
+
+Một vài chú ý
+Nếu các bạn để ý, chắc sẽ nhận ra sed không thay đổi file gốc mà chỉ hiển thị kết quả của việc thực thi script. Giống như hầu hết các chương trình UNIX khác, sed nhận input và đưa kết quả để standard output.
+
+Vậy phải làm thế nào để có thể thay đổi file với script của bạn?
+
+Chúng ta có thể sử dụng argument -i để giúp sed tạo ra một backup file chứa nội dung của file trước khi script được thực thi.
+
+Ví dụ:
+
+$ sed -i '.bkp' -e '/foo/d' file.txt
+Câu lệnh trên sẽ thực thi script (xoá tất cả các dòng thoả mãn pattern /foo/) và tạo ra một file backup là file.txt.bkp, với nội dung của file.txt lúc đầu.
+
+Nếu bạn đã tự tin với đoạn script của mình, chỉ cần truyền string rỗng vào là sed sẽ thay thế luôn file gốc.
+
+$ sed -i'' -e '/foo/d' file.txt
+# file.txt bị thay đổi, không có backup file được tạo
+sed hoạt động tốt hơn với những người bạn :)
+Người bạn tốt nhất của sed có lẽ là find. Đây là câu lệnh dùng để tìm kiếm một cái gì đó trong filesystem của bạn.
+
+Cứ ví dụ như bạn đã phạm một sai lầm tồi tệ như ghi password của một vài users ra log file. Giờ bạn cần phải sửa sai bằng cách tìm và xoá toàn bộ những dòng chứa chữ "password" trong hàng tá những log files. Nếu bạn biết đến sed, thì rất đơn giản:
+
+$ find . -name "*.log" -exec sed -i'' -e '/password/d' {} \;
+find sẽ tìm tất cả các log file và thực thi câu lệnh sed, {} có nghĩa là "thêm những file bạn tìm thấy vào đây", không có gì khác biệt với những ví dụ mà chúng ta đã nhắc đến bên trên.
+
+Kết luận
+sed là một tool rất mạnh, giúp chúng ta tiết kiệm rất nhiều thời gian chỉ với vài câu lệnh đơn giản. Nếu bạn muốn xem thêm những điều mà sed có thể làm, hãy thử check file này nhé.

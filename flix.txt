@@ -1,0 +1,931 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2018-01-15T13:34:59+07:00
+
+====== flix ======
+Created Monday 15 January 2018
+
+
+
+awk '{if ($4 > 6.000){print $4,$1$3,$2}}' | sort -k 1 -rn
+rev | cut -d '/' -f 2-10 | rev | awk '{print $2}' | sort | uniq -c | sort -rnn
+cut -d '"' -f 8,26 | sed 's/"//' |cut -d '/' -f 1,3-10|grep '.ts\|.m3u8'| rev | cut -d '/' -f 2-10 | rev |sort | uniq | sort -rn
+https://www.thegeekstuff.com/2011/10/grep-or-and-not-operators
+trong@trong:~$ cat request_time_hdviet_22.txt | cut -d ' ' -f2 |rev|cut -d '/' -f 2-10|rev|while read line; do grep -ioh "$line" request_time_hdviet_23.txt --colour ; done | sort -rn|uniq -c| sort -rn
+ 1973  cat trong  | sed 's/\?.*//' | sort | uniq
+
+
+
+streaming của filx
+là con nào thế a
+.6 ku
+
+
+hai.doan@flix.vn    489bc37fb17bce8798a81e32e97a487f
+
+thằng livetv flix nằm trên con nào a thiên
+
+.2 với 19
+
+
+
+
+
+
+   11  cd /data/source/flix2-backend/
+
+   14  cd /data/source/recommendation_system_webservice/
+
+   16  sh uwsgi-start.sh 
+
+   23  cd backend/
+
+
+   37  vim /etc/nginx/conf.d/flix2-backend.conf
+   38  vi /etc/nginx/conf.d/flix2-backend.conf
+   39  sudo vi /etc/nginx/conf.d/flix2-backend.conf
+
+   41  sudo nginx -t
+   42  sudo nginx -s reload 
+   43  tail -f  flix2_backend_access.log
+   46  ping adv-backend.flix.vn
+
+
+
+
+
+
+@@P@ssw0rd@
+
+
+
+
+# For advice on how to change settings please see
+# http://dev.mysql.com/doc/refman/5.7/en/server-configuration-defaults.html
+
+[mysqld]
+max_connections         = 5000
+connect_timeout         = 600
+wait_timeout            = 28800
+max_allowed_packet      = 128M
+thread_cache_size       = 512
+sort_buffer_size        = 4M
+bulk_insert_buffer_size = 16M
+tmp_table_size          = 256M
+max_heap_table_size     = 256M
+
+join_buffer_size = 1024K
+sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+
+#
+# Remove leading # and set to the amount of RAM for the most important data
+# cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
+# innodb_buffer_pool_size = 128M
+#
+# Remove leading # to turn on a very important data integrity option: logging
+# changes to the binary log between backups.
+# log_bin
+server-id               = 11
+
+relay-log               = /var/log/mysql/mysql-relay-bin.log
+
+log_bin                 = /var/log/mysql/mysql-bin.log
+
+binlog_do_db            = flix2
+# Remove leading # to set options mainly useful for reporting servers.
+# The server defaults are faster for transactions and fast SELECTs.
+# Adjust sizes as needed, experiment to find the optimal values.
+# join_buffer_size = 128M
+# sort_buffer_size = 2M
+# read_rnd_buffer_size = 2M
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+
+
+expr `perl -le 'print hex(\`hostid\`);'` % 37
+vim  /data/source/flix2-backend/config/prod/flix2_backend.ini 
+ 1022  cd /data/source/flix2-backend/
+ 1023  ls -la
+ 1024  vim prod-start.sh 
+ 1025  sh -x prod-start.sh 
++---------------+-----------+--------------+------------------+-------------------+
+| File          | Position  | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |
++---------------+-----------+--------------+------------------+-------------------+
+| binlog.000640 | 105646155 |              |                  |                   |
++---------------+-----------+----
+mysql> SET PASSWORD FOR 'root'@'localhost' = PASSWORD('@@P@ssw0rd@');
+
+https://www.liquidweb.com/kb/create-a-mysql-user-on-linux-via-command-line/
+https://dev.mysql.com/doc/refman/5.6/en/show-slave-status.html
+
+--slave-skip-errors=all
+
+
+
+
+				Last_IO_Error: Got fatal error 1236 from master when reading data from binary log: 'A slave with the same server_uuid/server_id as this slave has connected to the master; the first event 'binlog.000640' at 266491757, the last event read from '/home/mysql/binlog/binlog.000640' at 266922968, the last byte read from '/home/mysql/binlog/binlog.000640' at 266922968.'
+
+/var/lib/mysql
+trong@Thinkpad:~$ echo afslkdfajasdfssorei | sed 's/.$/11111/'
+afslkdfajasdfssore11111
+trong@Thinkpad:~$ echo afslkdfajasdfssorei | sed 's/.$/11111/'
+
+
+
+Cách 1:
+B1: cd /home/transcoding_user
+B2: sh restart_all.sh
+Cách 2:
+B1: ps auxww | grep 'TOENV' | awk '{print $2}' | xargs kill -9
+B2: sh start_all.sh
+Chỉ lệnh close job:
+mysql -u transcoding_user -p
+pass: transcodedb
+query: UPDATE TranscodingAPI_job SET status='TO_J00910' where status='TO_F00001';
+
+https://www.centos.org/docs/5/html/5.2/Deployment_Guide/s2-swap-creating-file.html
+
+
+
+rong [9:38 PM]
+dạ vâng
+em mới trao đổi với anh thiên rồi
+với hôm này em đã add
+crontab
+
+để tự dộng start và stop instance
+
+phongnt [9:39 PM]
+crontab có tự động chạy luôn cho 2 hoặc nhiều instances ko? hay phải start từng cái?
+Trong
+để tự dộng start và stop instance
+coi chừng start 2 instances lên đồng thời nó sẽ bị nhầm lẫn instances id
+nếu dung crontab thì start từng instance 1 cho đến khi đủ số lượng
+ngày mai cần đảm bảo có ít nhất 6 instances lúc 4h30 pm nhé, và weighted cho aws LB là 100:100
+cần add alert vào để khi nào có alert đụng ngưỡng 30% thì start thêm 2 instances nữa, nếu hit 40% thì thêm 4 instances
+ngày mai em phụ trách việc start VM/LB cho chắc ăn.
+giờ sẽ không cần chốt data của .42 vào lúc 12h30 ngày mai để dump data nữa phải ko?
+
+Trong [9:44 PM]
+dạ đúng rồi a
+mysql slave sẽ tự động sync
+
+phongnt [9:45 PM]
+data ghi vào slave db mấy hôm nay mai ngọc mới import vào .42? hay đã import từng ngày sau khi dump data ra và shutdown instances?
+
+Trong [9:45 PM]
+dạ anh ngọc nói mấy hôm tểt
+em cứ export ra
+qua tết anh ngọc sẽ tổng hợp lại 1 lần
+
+phongnt [9:47 PM]
+uploaded and commented on this image: image.png 
+
+hôm nay em đã mất cơ hội để thử việc scale up thêm các instances khi load vượt ngưỡng giới hạn!
+
+phongnt [9:47 PM]
+nên mai nhớ add alert cho các instances khi start lên nhé!
+
+phongnt [9:49 PM]
+uploaded and commented on this image: image.png 
+
+hôm nay requests cao quá mà 9h đã đi shutdown hết các instances!
+
+phongnt [9:51 PM]
+em add 2 records cho DNS chưa?
+
+Trong [9:52 PM]
+phần này em edit trung script luôn rồi ạ
+
+phongnt [9:53 PM]
+ko cần add vào nữa à? thử chạy scripts đó chưa?
+giờ start lên 2 instances cho anh xem
+
+Trong [9:54 PM]
+dạ vâng
+
+phongnt [9:55 PM]
+uploaded and commented on this image: image.png 
+
+em có cấu hình của VM bên VNDT cho apis ko? sao I/O và cpu của nó khá cao trong khi load assign cho node đó là thấp nhất, weight=5
+
+Trong [9:56 PM]
+dạ không anh
+
+phongnt [9:58 PM]
+uploaded and commented on this image: image.png 
+
+load ở LB tuần vừa rồi, rõ ràng là cần start và duy trì vài instances lúc cao điểm từ 4h30 đến ít nhất 8h, sau đó có thể giảm dần
+
+phongnt [9:59 PM]
+em có ssh vào vm đó lấy cấu hình được ko?
+Trong
+dạ không anh
+
+Trong [10:00 PM]
+dạ vm của vinadata
+12 core 32 g ram
+
+phongnt [10:00 PM]
+có biết nó là core gì ko em? so với core của .42 hoặc của AWS thì thế nào
+nhiều core mà core yếu thì ko có giá trị gì lắm!
+Trong
+12 core 32 g ram
+
+Trong [10:01 PM]
+model name    : Intel Xeon E312xx (Sandy Bridge)
+so với .42 và aws chắc chắn là yếu hơn ạ
+
+phongnt [10:05 PM]
+em so cpu benchmark cho anh biết yếu hơn thế nao (bao nhiêu lần)
+Trong
+so với .42 và aws chắc chắn là yếu hơn ạ
+
+Trong [10:06 PM]
+em chạy sript start 2 instance
+và tự add dns rồi a
+
+phongnt [10:08 PM]
+sao 1 cái stop,  còn 1 cái running/initializing? vậy làm sao accepts reqs?
+scripts của em chưa check xem instances đã running trước khi add/update DNS?
+
+Trong [10:12 PM]
+phần add dns sẽ chạy sau khi vm runing à được add vào target group (loadbalancer)
+
+phongnt [10:12 PM]
+vậy sao nó lại có DNS trước khi 2 instances "running" và ready?
+Trong
+phần add dns sẽ chạy sau khi vm runing à được add vào target group (loadbalancer)
+
+Trong [10:14 PM]
+em sẽ xem lại chỗ này
+
+phongnt [10:15 PM]
+lúc nãy em có stop 1 instance ko? hay tại sao nó bị stop?
+
+Trong [10:16 PM]
+dạ hơi lạ
+vì em cũng ko stop
+
+phongnt [10:16 PM]
+em run stop script xem nó có shutdown/terminate instances và đổi DNS ko
+em vừa mới start thêm 1 instances nữa à?
+
+Trong [10:17 PM]
+dạ vâng
+em đang chạy script stop instance
+
+phongnt [10:18 PM]
+ko cần đâu, giờ này mọi người hết dùng rồi (xem cpu load của các srvs apis trên zabbix)
+nên chỉ cần chạy stop scripts xem nó chạy đúng chưa!
+sau khi remove DNS thì chờ 300s mới stop instances? hay để lâu hơn, ví dụ 600s? (edited)
+
+Trong [10:20 PM]
+dạ hiện tại là 300s
+
+phongnt [10:20 PM]
+chắc em tăng lên 450s cho chắc ăn
+Trong
+dạ hiện tại là 300s
+
+Trong [10:21 PM]
+dạ vâng 
+em se tối ưu lần lần
+:grinning:
+
+phongnt [10:23 PM]
+mai nhớ start *6 instances vào trước 4h30* nhé, và add các alert 30%, 40%, 50%.
+nếu 1 instances hit 30% ==> start thêm 2 instances
+nếu 1 instances hit 40% ==> start thêm 4 instances
+nếu 1 instances hit 50% ==> start thêm 6 instances
+
+*đổi weighted cho AWS LB lên 150:150 (thay vì 100:100 như hiện tại cho riêng ngày 30 Tết (15/02/2018)*
+cái này chỉ riêng cho ngày mai, chuẩn bị ctrinh Táo quân thôi, sau đó có thể sẽ trả lại 100:100 như bình thường, hoặc có thể là 70:70 tùy tình hình cpu load của các apis srvs của mình (ko kể AWS EC2 instances) (edited)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+web cua hdviet
+
+210.245.18.136
+ping ko duoc reboot
+`ipmitool -H 100.30.1.12 -U ADMIN -P ADMIN power reset`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always;
+add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,User-Agent,If-Modified-Since,Content-Type,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  location / {
+
+		 if ($request_method = 'OPTIONS') {
+			#add_header Access-Control-Max-Age 2592000;
+			add_header Access-Control-Max-Age 2592000 always;
+			add_header Access-Control-Allow-Origin "*" always;
+			add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+	add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Type,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always;
+			add_header 'Content-Type' 'text/plain charset=UTF-8';
+			add_header 'Content-Length' 0;
+			return 204;
+		}
+
+		if ($request_uri ~* ".(jpg|jpeg|gif|gz|zip|flv|rar|wmv|avi|swf|png|htc|ico|mpeg|mpg|txt|mp3|mov|ttf)(\?v=[0-9.]+)?$") {
+			expires 1d;
+			break;
+		}
+
+		add_header Access-Control-Max-Age 86400 always;
+		add_header Access-Control-Allow-Origin "*" always;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+		add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Type,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always;
+
+		uwsgi_pass  flix2_backend_uwsgi;
+		include     uwsgi_params; # the uwsgi_params file you installed
+		uwsgi_read_timeout 40s;
+		uwsgi_send_timeout 40s;
+		client_body_timeout 30s;
+#       client_header_timeout 5s;
+		uwsgi_ignore_client_abort on;
+		#cache
+		#uwsgi_cache flix_api_cache;
+		#uwsgi_cache_key $host$request_uri$is_args$args;
+		#uwsgi_cache_valid 200 5s; #Or whatever value you want
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+upstream flix2_backend_uwsgi {
+		server unix:/data/run/uwsgi/flix2_backend.sock weight=20 max_fails=3 fail_timeout=10s; # for a file socket
+
+}
+
+uwsgi_cache_path /var/cache/nginx levels=2:2 keys_zone=flix_api_cache:4096M inactive=1h max_size=16G use_temp_path=off;
+# configuration of the server
+#server {
+#    #uwsgi_cache one;
+#    listen      443 ssl http2 backlog=8192;
+#    server_name apis.flix.vn;
+#    ssl on;
+#    ssl_certificate /etc/nginx/ssl/flix.vn.crt;
+#    ssl_certificate_key /etc/nginx/ssl/flix.vn.key;
+#    ssl_session_cache shared:SSL:50m;
+#    ssl_dhparam /etc/nginx/ssl/dhparams.pem;
+#    ssl_session_timeout  1d;
+#    ssl_session_tickets off;
+#    ssl_ciphers ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DHE+AES128:!ADH:!AECDH:!MD5;
+#    ssl_prefer_server_ciphers on;
+#    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
+#    if ($allowip) {
+#        set $allowed_country yes;
+#    }
+
+#    if ($allowed_country = no) {
+#        return 444;
+#    }
+
+#    charset     utf-8;
+#    default_type  text/plain;
+
+#    access_log /var/log/nginx/flix2_backend_access.log main;
+#    error_log /var/log/nginx/flix2_backend_error.log error;
+
+##    access_log /var/log/nginx/adv-backend.flix.vn_access.log main;
+##    error_log /var/log/nginx/adv-backend.flix.vn_error.log;
+
+#    gzip on;
+#    gzip_disable "msie6";
+
+#    gzip_vary on;
+#    gzip_proxied any;
+#    gzip_comp_level 6;
+#    gzip_buffers 16 8k;
+#    gzip_http_version 1.0;
+#    gzip_min_length 1000;
+#    gzip_types text/plain text/css text/xml text/javascript application/javascript application/json application/x-javascript application/xml application/xml+rss application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon;
+#    client_header_buffer_size 16k;
+#    large_client_header_buffers  16 16k;
+
+#    location / {
+#        if ($request_uri ~* ".(jpg|jpeg|gif|gz|zip|flv|rar|wmv|avi|css|swf|png|htc|ico|mpeg|mpg|txt|mp3|mov|js)(\?v=[0-9.]+)?$") {
+#			expires 1d;
+#			#access_log off;
+#			break;
+#		}
+#	 if ($request_method = 'OPTIONS') {
+ #           add_header Access-Control-Max-Age 2592000 always;
+ #           add_header Access-Control-Allow-Origin "*" always;
+ #           add_header 'Access-Control-Allow-Methods' 'GET,HEAD,POST, OPTIONS' always;
+ #  	    add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Type,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always;
+ #           add_header 'Content-Type' 'text/plain charset=UTF-8';
+ #           add_header 'Content-Length' 0;
+ #           return 204;
+ #       }
+#
+#        add_header Access-Control-Max-Age 2592000 always;
+#        add_header Access-Control-Allow-Origin "*" always;
+#        add_header 'Access-Control-Allow-Methods' 'GET,HEAD, POST, OPTIONS' always;
+#    	add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Type,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always;
+
+#		uwsgi_pass  flix2_backend_uwsgi;
+
+#        	include     uwsgi_params; # the uwsgi_params file you installed
+#                uwsgi_read_timeout 40s;
+#		#cache
+	#	uwsgi_cache flix_api_cache;
+#               # uwsgi_cache_key $host$request_uri$is_args$args;
+#               # uwsgi_cache_valid 200 5s; #Or whatever value you want
+#    }
+#}
+server {
+	#uwsgi_cache one;
+	listen      80 backlog=8192;
+	listen      443 ssl http2 backlog=8192;
+
+	server_name apis.flix.vn;
+	ssl on;
+
+	ssl_certificate /etc/nginx/ssl/flix.vn.crt;
+	ssl_certificate_key /etc/nginx/ssl/flix.vn.key;
+	ssl_session_cache shared:SSL:50m;
+	ssl_dhparam /etc/nginx/ssl/dhparams.pem;
+	ssl_session_timeout  1d;
+	ssl_session_tickets off;
+	ssl_ciphers ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DHE+AES128:!ADH:!AECDH:!MD5;
+	ssl_prefer_server_ciphers on;
+	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
+	if ($allowip) {
+		set $allowed_country yes;
+	}
+
+	if ($allowed_country = no) {
+		return 444;
+	}
+
+	ssl_stapling on;
+	ssl_stapling_verify on;
+	#ssl_trusted_certificate /etc/nginx/ssl/flix.vn.pem;
+	ssl_trusted_certificate /etc/ssl/certs/ca-bundle.trust.crt;
+	resolver 208.67.222.222 208.67.220.220 8.8.8.8 8.8.4.4;
+	resolver_timeout 5s;
+
+	charset     utf-8;
+	#default_type  text/plain;
+	default_type  application/json;
+	chunked_transfer_encoding off;
+
+	access_log /var/log/nginx/flix2_backend_access.log main;
+	error_log /var/log/nginx/flix2_backend_error.log error;
+
+	gzip on;
+	gzip_disable "msie6";
+
+	gzip_vary on;
+	gzip_proxied any;
+	gzip_comp_level 6;
+	gzip_buffers 16 8k;
+	gzip_http_version 1.0;
+	gzip_min_length 1000;
+	gzip_types text/plain text/css text/xml text/javascript application/javascript application/json application/x-javascript application/xml application/xml+rss application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon;
+
+#    error_log /var/log/nginx/adv-backend.flix.vn_error.log;
+#    access_log /var/log/nginx/flix2_backend_access.log main;
+#    error_log /var/log/nginx/flix2_backend_error.log error;
+ 
+	client_header_timeout 10s; 
+	client_header_buffer_size 16k;  
+	#client_header_buffer_size    16k;
+	large_client_header_buffers  16 4k;
+	location /flix/ {
+		if ($request_method = 'OPTIONS') {
+			#add_header Access-Control-Max-Age 2592000;
+			add_header Access-Control-Max-Age 86400 always;
+			add_header Access-Control-Allow-Origin "*" always;
+			add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+	add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always; 
+			add_header 'Content-Type' 'text/plain charset=UTF-8';
+			add_header 'Content-Length' 0;
+			return 204;
+		}
+
+		if ($request_uri ~* ".(jpg|jpeg|gif|gz|zip|flv|rar|wmv|avi|swf|png|htc|ico|mpeg|mpg|txt|mp3|mov|ttf)(\?v=[0-9.]+)?$") {
+			expires 1d;
+			break;
+		}
+
+		add_header Access-Control-Max-Age 86400 always;
+		add_header Access-Control-Allow-Origin "*" always;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+	add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always; 
+
+		uwsgi_pass  flix2_backend_uwsgi;
+		include     /etc/nginx/uwsgi_params; # the uwsgi_params file you installed
+		uwsgi_read_timeout 20s;
+		uwsgi_send_timeout 20s;
+		uwsgi_ignore_client_abort on;
+
+		proxy_redirect off;
+		proxy_http_version 1.1;
+		proxy_set_header Connection "";
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header Host $http_host;
+	}
+
+	location ~* \.php$ {
+		return 403;
+	}
+
+location = /flix/v2/get_firstscreen {
+		uwsgi_pass  flix2_backend_uwsgi;
+		include /etc/nginx/uwsgi_params;
+		uwsgi_read_timeout 20s;
+		uwsgi_send_timeout 20s;
+		uwsgi_ignore_client_abort on;
+
+		add_header 'Access-Control-Max-Age' 2592000 always;
+		add_header 'Access-Control-Allow-Origin' "*" always;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+		add_header 'Access-Control-Allow-Headers' 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always;
+		add_header 'Cache-Control' "public, no-transform" always;
+		#add_header 'Cache-Control' "public" always;
+		#add_header 'Vary' "Origin" always;
+		add_header 'X-Proxy-Cache' $upstream_cache_status always;
+		#client cache
+		expires 300s;
+
+		#server cache
+		uwsgi_cache_use_stale error timeout invalid_header http_500 http_503 http_403 http_404 http_429;
+		uwsgi_cache flix_api_cache;
+		uwsgi_cache_key $host$request_uri$is_args$args;
+		#uwsgi_cache_key $request_uri;
+		uwsgi_cache_valid 200 300s; #Or whatever value you want
+		uwsgi_cache_valid any 30s; #Or whatever value you want
+	}
+location = /flix/v2/epg/live {
+	if ($request_method = 'OPTIONS') {
+			add_header Access-Control-Max-Age 86400 always;
+			add_header Access-Control-Allow-Origin "*" always;
+			add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+	add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always; 
+			add_header 'Content-Type' 'text/plain charset=UTF-8';
+			add_header 'Content-Length' 0;
+			return 204;
+		}
+
+		add_header Access-Control-Max-Age 86400 always;
+# reverse if error CORS
+		add_header Access-Control-Allow-Origin "*" always;
+#        add_header Access-Control-Allow-Origin "$http_origin";
+		add_header Vary "Origin";
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+	add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always; 
+
+		uwsgi_pass  flix2_backend_uwsgi;
+		include /etc/nginx/uwsgi_params;
+		uwsgi_read_timeout 20s;
+		uwsgi_send_timeout 20s;
+
+		#client cache
+		expires 300s;
+
+		#microcache
+		uwsgi_cache flix_api_cache;
+		#uwsgi_cache_key $host$request_uri$is_args$args;
+		uwsgi_cache_key $host$request_uri$is_args$args$http_authorization;
+		uwsgi_cache_valid 200 300s;
+		uwsgi_cache_valid any 5s; #Or whatever value you want
+	}
+
+
+ location = /flix/v2/home-live-feed  {
+		if ($request_method = 'OPTIONS') {
+			add_header Access-Control-Max-Age 86400 always;
+			add_header Access-Control-Allow-Origin "*" always;
+			add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+	add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always;
+			add_header 'Content-Type' 'text/plain charset=UTF-8';
+			add_header 'Content-Length' 0;
+			return 204;
+		}
+
+		add_header Access-Control-Max-Age 86400 always;
+		add_header Access-Control-Allow-Origin "*" always;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+	add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always;
+
+		uwsgi_pass  flix2_backend_uwsgi;
+		include /etc/nginx/uwsgi_params;
+		uwsgi_read_timeout 20s;
+		uwsgi_send_timeout 20s;
+		uwsgi_pass_request_headers on;
+		#uwsgi_hide_header       Set-Cookie;
+#                uwsgi_ignore_headers    Set-Cookie Vary Expires;
+#                #proxy_ignore_headers    Set-Cookie;
+		proxy_set_header        Cookie "";
+
+		#client cache
+		expires 60s;
+
+		#microcache
+		uwsgi_cache flix_api_cache;
+		#uwsgi_cache_key $host$request_uri$is_args$args;
+		uwsgi_cache_key $host$request_uri$is_args$args$http_authorization;
+		uwsgi_cache_valid 200 300s;
+		uwsgi_cache_valid any 5s; #Or whatever value you want
+	}
+
+location = /flix/v2/home-relay-feed-date {
+	if ($request_method = 'OPTIONS') {
+			add_header Access-Control-Max-Age 86400 always;
+			add_header Access-Control-Allow-Origin "*" always;
+			add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+	add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always; 
+			add_header 'Content-Type' 'text/plain charset=UTF-8';
+			add_header 'Content-Length' 0;
+			return 204;
+		}
+
+		add_header Access-Control-Max-Age 86400 always;
+		add_header Access-Control-Allow-Origin "*" always;
+		#add_header Access-Control-Allow-Origin "$http_origin" always;
+		add_header Vary "Origin" always;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+	add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always; 
+
+	uwsgi_pass  flix2_backend_uwsgi;
+		include /etc/nginx/uwsgi_params;
+		uwsgi_read_timeout 20s;
+		uwsgi_send_timeout 20s;
+		uwsgi_ignore_client_abort on;
+		uwsgi_pass_request_headers on;
+
+		#client cache
+		#add_header Cache-Control "public, no-transform";
+		expires 60s;
+
+		#server cache
+		uwsgi_cache flix_api_cache;
+		uwsgi_cache_key $host$request_uri$is_args$args;
+		uwsgi_cache_valid 200 900s; #Or whatever value you want
+		uwsgi_cache_valid any 15s; #Or whatever value you want
+
+	}
+
+	location = /flix/v2/home-sysdate {
+		if ($request_method = 'OPTIONS') {
+			add_header Access-Control-Max-Age 86400 always;
+			add_header Access-Control-Allow-Origin "*" always;
+			add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+	add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always; 
+			add_header 'Content-Type' 'text/plain charset=UTF-8';
+			add_header 'Content-Length' 0;
+			return 204;
+		}
+
+		add_header Access-Control-Max-Age 86400 always;
+		add_header Access-Control-Allow-Origin "*" always;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+	add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always; 
+
+	uwsgi_pass  flix2_backend_uwsgi;
+		include /etc/nginx/uwsgi_params;
+		uwsgi_read_timeout 20s;
+		uwsgi_send_timeout 20s;
+		uwsgi_cache flix_api_cache;
+		uwsgi_cache_key "$request_uri";
+		uwsgi_cache_valid 200 1s; #Or whatever value you want
+
+	}
+
+	location = /flix/v2/auth/signup_device {
+		if ($request_method = 'OPTIONS') {
+			add_header Access-Control-Max-Age 86400 always;
+			add_header Access-Control-Allow-Origin "*" always;
+			add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+	add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always; 
+			add_header 'Content-Type' 'text/plain charset=UTF-8';
+			add_header 'Content-Length' 0;
+			return 204;
+		}
+
+		add_header Access-Control-Max-Age 86400 always;
+		add_header Access-Control-Allow-Origin "*" always;
+			add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+	add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always; 
+
+	uwsgi_pass  flix2_backend_uwsgi;
+		include /etc/nginx/uwsgi_params;
+		uwsgi_read_timeout 20s;
+		uwsgi_send_timeout 20s;
+
+		#server cache
+		uwsgi_cache flix_api_cache;
+		uwsgi_cache_key "$remote_addr|$request_uri|$request_body";
+		uwsgi_cache_valid 200 10s; #Or whatever value you want
+
+	}
+
+#        location ~* /flix/v2/epg/channel {
+#                uwsgi_pass  flix2_backend_uwsgi;
+#                include /etc/nginx/uwsgi_params;
+#                uwsgi_read_timeout 20s;
+#                uwsgi_send_timeout 20s;
+#
+#                #client cache
+#                 expires 30s;
+#
+#                #server cache
+#                uwsgi_cache flix_api_cache;
+#                uwsgi_cache_key $host$request_uri$is_args$args;
+#                uwsgi_cache_valid any 5s; #Or whatever value you want
+#
+#        }
+
+#    location ~ ^/flix/v[0-9]+/vod/[0-9a-zA-Z\-]+$ {
+#                uwsgi_pass  flix2_backend_uwsgi;
+#                include /etc/nginx/uwsgi_params;
+#                uwsgi_read_timeout 20s;
+#                uwsgi_send_timeout 20s;
+
+#                #client cache
+#                 expires 180s;
+
+#                #server cache
+#                uwsgi_cache flix_api_cache;
+#                uwsgi_cache_key $host$request_uri$is_args$args;
+#                uwsgi_cache_valid any 5s; #Or whatever value you want
+
+#        }
+	location = /flix/v2/home-feed-1hour {
+		if ($request_method = 'OPTIONS') {
+			add_header Access-Control-Max-Age 86400 always;
+			add_header Access-Control-Allow-Origin "*" always;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+	add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always; 
+			add_header 'Content-Type' 'text/plain charset=UTF-8';
+			add_header 'Content-Length' 0;
+			return 204;
+		}
+
+		add_header Access-Control-Max-Age 86400 always;
+			add_header Access-Control-Allow-Origin "*" always;
+		#add_header Access-Control-Allow-Origin "$http_origin" always;
+		add_header Vary "Origin" always;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+	add_header Access-Control-Allow-Headers 'x-requested-with, content-type, accept, origin, authorization, x-csrftoken, user-agent, accept-encoding,Host,XMLHttpRequest,X-Frame-Options,Accept-Language,DNT,X-CustomHeader,Keep-Alive,If-Modified-Since,Content-Range,Accept-Ranges,Range,Content-Length,Vary,X-CSRF-Token,Referer' always; 
+
+		uwsgi_pass  flix2_backend_uwsgi;
+		include /etc/nginx/uwsgi_params;
+		uwsgi_read_timeout 20s;
+		uwsgi_send_timeout 20s;
+		uwsgi_ignore_client_abort on;
+		uwsgi_pass_request_headers on;
+
+		#client cache
+		#add_header Cache-Control "public, no-transform";
+		expires 60s;
+
+		#server cache
+		uwsgi_cache flix_api_cache;
+		uwsgi_cache_key $host$request_uri$is_args$args;
+		uwsgi_cache_valid 200 900s; #Or whatever value you want
+		uwsgi_cache_valid any 5s; #Or whatever value you want
+	}
+
+location /static/ {
+		alias    /data/source/flix2-backend/backend/static/;
+		expires 30d;
+	}
+
+location /robots.txt  {
+		return 403;
+	}
+
+	location /favicon.ico  {
+		return 403;
+	}
+
+}
+
+
+
+
+
+
+
+
+`ipmitool -H 100.30.1.12 -U ADMIN -P ADMIN power reset`
+Google Drive:    khongcopass@nghe.audio/Hien@1711
